@@ -1,0 +1,88 @@
+{
+  "graph": {
+    "nodes": {
+      "root": {
+        "metadata": {
+          "type": "root",
+          "location": 1
+        },
+        "label": "root"
+      },
+      "containerA": {
+        "metadata": {
+          "type": "node",
+          "control": "1on0",
+          "properties": {
+            "params": ["data: bitstring", "sessionKey: key"],
+            "behaviour": "!(event startCommunication(data, sessionKey); out(#0+, senc(data, sessionKey))).",
+            "events": ["startCommunication(bitstring, key)"],
+            "attribute": ""
+          }
+        },
+        "label": "containerA"
+      },
+      "containerB": {
+        "metadata": {
+          "type": "node",
+          "control": "1on0",
+          "properties": {
+            "params": ["sessionKey: key"],
+            "behaviour": "!(in(#0+, e_data:bitstring); let data_received = sdec(e_data, sessionKey) in event termCommunication(data_received, sessionKey)).",
+            "events": ["termCommunication(bitstring, key)"],
+            "attribute": ""
+          }
+        },
+        "label": "containerB"
+      },
+      "publicNetwork": {
+        "metadata": {
+          "type": "name",
+          "interface": "outer",
+          "locality": 1,
+          "polarity": "+"
+        },
+        "label": "publicNetwork"
+      }
+    },
+    "edges": [
+      {
+        "source": "root",
+        "relation": "place",
+        "target": "containerA",
+        "metadata": {}
+      },
+      {
+        "source": "root",
+        "relation": "place",
+        "target": "containerB",
+        "metadata": {}
+      },
+      {
+        "source": "containerA",
+        "relation": "linkedTo",
+        "target": "publicNetwork",
+        "metadata": {
+          "portFrom": "0"
+        }
+      },
+      {
+        "source": "containerB",
+        "relation": "linkedTo",
+        "target": "publicNetwork",
+        "metadata": {
+          "portFrom": "0"
+        }
+      }
+    ],
+    "type": "ldb",
+    "metadata": {
+      "signature": {
+        "1on0": {
+          "active": true,
+          "arityOut": 1,
+          "arityIn": 0
+        }
+      }
+    }
+  }
+}

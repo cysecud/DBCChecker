@@ -1,0 +1,44 @@
+version: "3.8"
+services:
+  serverProverif:
+    image: server-proverif:1.0
+    build:
+      context: ./proverifServer
+      # cache_from:
+      #   - alpine:3.11.0
+    container_name: serverproverif-container
+    networks: 
+      internalBridge:
+          ipv4_address: 172.19.0.3
+    expose:
+      - "5001"
+    ports:
+      - 8080:5000
+    links:
+      - proverif
+    depends_on: 
+      - proverif
+    stop_grace_period: 5s
+    stop_signal: SIGTERM # Or SIGUSR1
+  proverif:
+    image: proverif-for-docker:1.0
+    build:
+      context: ./proverif4Docker
+      # cache_from:
+      #   - alpine:3.11.0
+    container_name: proverif-for-docker-container
+    networks: 
+      internalBridge:
+        ipv4_address: 172.19.0.2
+    ports:
+      - 8081:5001
+    expose:
+      - "5001"
+    stop_grace_period: 5s
+    stop_signal: SIGTERM # Or SIGUSR1
+networks: 
+  internalBridge:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.19.0.0/16"

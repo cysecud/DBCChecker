@@ -1,0 +1,31 @@
+{
+  "bigraphInfo": {
+    "id": "basicReplyAttack"
+  },
+  "types": ["key"],
+  "variables": {
+    "public": [],
+    "private": ["sessionKey:key", "data:bitstring"]
+  },
+  "functions": {
+    "senc": "fun senc(bitstring, key):bitstring. reduc forall m:bitstring, k:key; sdec(senc(m,k),k) = m."
+  },
+  "queries": {
+    "attack1": {
+      "attacker": "data"
+    },
+    "correspondence": {
+      "query": "c:bitstring, k:key; inj-event(termCommunication(c, k)) ==> inj-event(startCommunication(c, k))"
+    }
+  },
+  "instantiations": {
+    "containerA": {
+      "data": "data",
+      "sessionKey": "sessionKey"
+    },
+    "containerB": {
+      "sessionKey": "sessionKey"
+    }
+  },
+  "prologue": []
+}

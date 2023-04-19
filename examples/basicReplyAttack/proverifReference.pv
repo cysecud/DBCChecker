@@ -1,0 +1,35 @@
+type key.
+
+free c:channel.
+free sessionKey:key [private].
+free data:bitstring [private].
+
+(* Symmetric Encryption *)
+fun senc(bitstring, key):bitstring.
+reduc forall m:bitstring, k:key; sdec(senc(m,k),k) = m.
+
+event startCommunication(bitstring, key).
+event termCommunication(bitstring, key).
+
+(* Confidentiality Queries *)
+query attacker(data).
+
+(* Strong Secrecy Queries *)
+noninterf data.
+(* WeakSecret Queries *)
+weaksecret data.
+
+(* Authentication*)
+query c:bitstring, k:key; inj-event(termCommunication(c, k)) ==> inj-event(startCommunication(c, k)).
+
+let containerA =
+    event startCommunication(data, sessionKey);
+    out(c, senc(data, sessionKey)).
+    
+let containerB =
+    in(c, e_data:bitstring);
+    let data_received = sdec(e_data, sessionKey) in
+    event termCommunication(data_received, sessionKey).
+
+process
+    ( !containerA | !containerB)
