@@ -1,0 +1,109 @@
+{
+  "graph": {
+    "nodes": {
+      "root": {
+        "metadata": {
+          "type": "root",
+          "location": 0
+        },
+        "label": "root"
+      },
+      "client": {
+        "metadata": {
+          "type": "node",
+          "control": "1on0",
+          "properties": {
+            "params": ["data:bitstring"],
+            "behaviour": "out(#0-, data).",
+            "events": [],
+            "attribute": ""
+          }
+        },
+        "label": "client"
+      },
+      "server": {
+        "metadata": {
+          "type": "node",
+          "control": "1on0",
+          "properties": {
+            "params": ["data:bitstring"],
+            "behaviour": "in(#0-, data_received:bitstring).",
+            "events": [],
+            "attribute": ""
+          }
+        },
+        "label": "server"
+      },
+      "siteServer": {
+        "metadata": {
+          "type": "site"
+        },
+        "label": "siteServer"
+      },
+      "privateNetwork": {
+        "metadata": {
+          "type": "name",
+          "interface": "inner",
+          "locality": 0,
+          "polarity": "-"
+        },
+        "label": "privateNetwork"
+      },
+      "publicNetwork": {
+        "metadata": {
+          "type": "name",
+          "interface": "outer",
+          "locality": 0,
+          "polarity": "+"
+        },
+        "label": "publicNetwork"
+      }
+    },
+    "edges": [
+      {
+        "source": "root",
+        "relation": "place",
+        "target": "client",
+        "metadata": {}
+      },
+      {
+        "source": "root",
+        "relation": "place",
+        "target": "server",
+        "metadata": {}
+      },
+      {
+        "source": "server",
+        "relation": "place",
+        "target": "siteServer",
+        "metadata": {}
+      },
+      {
+        "source": "client",
+        "relation": "linkedTo",
+        "target": "privateNetwork",
+        "metadata": {
+          "portFrom": "0"
+        }
+      },
+      {
+        "source": "server",
+        "relation": "linkedTo",
+        "target": "privateNetwork",
+        "metadata": {
+          "portFrom": "0"
+        }
+      }
+    ],
+    "type": "ldb",
+    "metadata": {
+      "signature": {
+        "1on0": {
+          "active": true,
+          "arityOut": 1,
+          "arityIn": 0
+        }
+      }
+    }
+  }
+}

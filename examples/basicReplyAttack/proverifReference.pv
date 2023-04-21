@@ -14,11 +14,6 @@ event termCommunication(bitstring, key).
 (* Confidentiality Queries *)
 query attacker(data).
 
-(* Strong Secrecy Queries *)
-noninterf data.
-(* WeakSecret Queries *)
-weaksecret data.
-
 (* Authentication*)
 query c:bitstring, k:key; inj-event(termCommunication(c, k)) ==> inj-event(startCommunication(c, k)).
 

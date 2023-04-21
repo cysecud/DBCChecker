@@ -1,0 +1,18 @@
+type key.
+
+free c:channel [private].
+free d:channel.
+
+free data:bitstring [private].
+
+(* Confidentiality Queries *)
+query attacker(data).
+
+let client =
+    out(c, data).
+    
+let server =
+    in(c, data_received:bitstring).
+
+process
+    ( !client | !server )
