@@ -18,7 +18,7 @@ To execute it you need Java (>=14):
 
     java -jar serverProverifGui-1.1.0-${PLATFORM}-STANDALONE.jar
 
-where `${PLATFORM}` is either `LINUX` or `WINDOWS` based on your platform.
+where `${PLATFORM}` is `LINUX`, `WINDOWS` or `MACOS` based on your platform.
 
 ## Pre-built Docker images
 
