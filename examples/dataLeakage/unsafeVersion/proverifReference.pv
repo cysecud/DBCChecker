@@ -3,19 +3,19 @@ type key.
 free c:channel [private].
 free d:channel.
 
-free data:bitstring [private].
-
 (* Confidentiality Queries *)
-query attacker(data).
+query attacker(new data).
 
 let client =
+    new data:bitstring;
     out(c, data).
     
 let server =
     in(c, data_received:bitstring).
 
-let maliciousContainer =
-    out(d, data).
+let logger =
+    in(c, data_toLog:bitstring);
+    out(d, data_toLog).
 
 process
-    ( !client | !server | !maliciousContainer)
+    ( !client | !server | !logger)

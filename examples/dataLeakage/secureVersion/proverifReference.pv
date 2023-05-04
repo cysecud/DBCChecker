@@ -3,12 +3,11 @@ type key.
 free c:channel [private].
 free d:channel.
 
-free data:bitstring [private].
-
 (* Confidentiality Queries *)
-query attacker(data).
+query attacker(new data).
 
 let client =
+    new data:bitstring;
     out(c, data).
     
 let server =

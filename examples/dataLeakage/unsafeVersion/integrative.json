@@ -2,27 +2,18 @@
   "bigraphInfo": {
     "id": "Data Leakage - Unsafe version"
   },
-  "types": ["key"],
+  "types": [],
   "variables": {
     "public": [],
-    "private": ["data:bitstring"]
+    "private": []
   },
   "functions": {},
   "queries": {
     "attackData": {
-      "attacker": "data"
+      "attacker": "new data"
     }
   },
   "instantiations": {
-    "client": {
-      "data": "data"
-    },
-    "server": {
-      "data": "data"
-    },
-    "maliciousContainer": {
-      "data": "data"
-    }
   },
   "prologue": []
 }

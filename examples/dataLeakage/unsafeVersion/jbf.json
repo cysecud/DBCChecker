@@ -13,8 +13,8 @@
           "type": "node",
           "control": "1on0",
           "properties": {
-            "params": ["data:bitstring"],
-            "behaviour": "out(#0-, data).",
+            "params": [],
+            "behaviour": "new data:bitstring; out(#0-, data).",
             "events": [],
             "attribute": ""
           }
@@ -26,7 +26,7 @@
           "type": "node",
           "control": "1on0",
           "properties": {
-            "params": ["data:bitstring"],
+            "params": [],
             "behaviour": "in(#0-, data_received:bitstring).",
             "events": [],
             "attribute": ""
@@ -34,18 +34,18 @@
         },
         "label": "server"
       },
-      "maliciousContainer": {
+      "logger": {
         "metadata": {
           "type": "node",
-          "control": "1on0",
+          "control": "2on0",
           "properties": {
-            "params": ["data:bitstring"],
-            "behaviour": "out(#0+, data).",
+            "params": [],
+            "behaviour": "in(#0-, data_toLog:bitstring); out(#0-, data_toLog); out(#1+, data_toLog).",
             "events": [],
             "attribute": ""
           }
         },
-        "label": "maliciousContainer"
+        "label": "logger"
       },
       "siteServer": {
         "metadata": {
@@ -88,7 +88,7 @@
       {
         "source": "client",
         "relation": "place",
-        "target": "maliciousContainer",
+        "target": "logger",
         "metadata": {}
       },
       {
@@ -114,11 +114,19 @@
         }
       },
       {
-        "source": "maliciousContainer",
+        "source": "logger",
+        "relation": "linkedTo",
+        "target": "privateNetwork",
+        "metadata": {
+          "portFrom": "0"
+        }
+      },
+      {
+        "source": "logger",
         "relation": "linkedTo",
         "target": "publicNetwork",
         "metadata": {
-          "portFrom": "0"
+          "portFrom": "1"
         }
       }
     ],
@@ -128,6 +136,11 @@
         "1on0": {
           "active": true,
           "arityOut": 1,
+          "arityIn": 0
+        },
+        "2on0": {
+          "active": true,
+          "arityOut": 2,
           "arityIn": 0
         }
       }

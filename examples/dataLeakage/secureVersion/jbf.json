@@ -13,8 +13,8 @@
           "type": "node",
           "control": "1on0",
           "properties": {
-            "params": ["data:bitstring"],
-            "behaviour": "out(#0-, data).",
+            "params": [],
+            "behaviour": "new data:bitstring; out(#0-, data).",
             "events": [],
             "attribute": ""
           }
@@ -26,7 +26,7 @@
           "type": "node",
           "control": "1on0",
           "properties": {
-            "params": ["data:bitstring"],
+            "params": [],
             "behaviour": "in(#0-, data_received:bitstring).",
             "events": [],
             "attribute": ""
