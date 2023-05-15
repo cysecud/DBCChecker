@@ -7,9 +7,11 @@ from os.path import isfile, join
 
 from flask import Flask, send_file
 from flask_restful import Api, Resource, abort, reqparse
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
 api = Api(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Add and setup the parser
 parser = reqparse.RequestParser()
@@ -36,7 +38,9 @@ class Models(Resource):
                 var = json.loads(result.stderr)
                 abort(int(var["code"]), Response=var)
         else:
-            return {'Response': json.loads(result.stdout)}, 200
+            return {'Response': json.loads(result.stdout)}, 200, \
+            { 'Access-Control-Allow-Origin': '*', \
+              'Access-Control-Allow-Methods' : 'GET' }
 
 # SingleModel
 # Get a model, create a new model and delete a model
@@ -56,7 +60,9 @@ class SingleModel(Resource):
                 var = json.loads(result.stderr)
                 abort(int(var["code"]), Response=var)
         else:
-            return {'Response': json.loads(result.stdout)}, 200
+            return {'Response': json.loads(result.stdout)}, 200, \
+            { 'Access-Control-Allow-Origin': '*', \
+              'Access-Control-Allow-Methods' : 'GET' }
 
     def post(self, model_id):
         result = subprocess.run(['java', '-jar', '/proverif/serverProverif-1.1.0.jar',
@@ -71,7 +77,9 @@ class SingleModel(Resource):
                 var = json.loads(result.stderr)
                 abort(int(var["code"]), Response=var)
         else:
-            return {'Response': json.loads(result.stdout)}, 201
+            return {'Response': json.loads(result.stdout)}, 201, \
+            { 'Access-Control-Allow-Origin': '*', \
+              'Access-Control-Allow-Methods' : 'POST' }
 
     def delete(self, model_id):
         result = subprocess.run(['java', '-jar', '/proverif/serverProverif-1.1.0.jar',
@@ -86,7 +94,9 @@ class SingleModel(Resource):
                 var = json.loads(result.stderr)
                 abort(int(var["code"]), Response=var)
         else:
-            return {'Response': json.loads(result.stdout)}, 200
+            return {'Response': json.loads(result.stdout)}, 200, \
+            { 'Access-Control-Allow-Origin': '*', \
+              'Access-Control-Allow-Methods' : 'DELETE' }
 
 # InputModel
 # Get a single input model, create a new one, update a model and delete a model
@@ -106,7 +116,9 @@ class InputModel(Resource):
                 var = json.loads(result.stderr)
                 abort(int(var["code"]), Response=var)
         else:
-            return {'Response': json.loads(result.stdout)}, 200
+            return {'Response': json.loads(result.stdout)}, 200, \
+            { 'Access-Control-Allow-Origin': '*', \
+              'Access-Control-Allow-Methods' : 'GET' }
 
     def post(self, model_id, file_id):
         args = parser.parse_args()
@@ -126,7 +138,9 @@ class InputModel(Resource):
                         var = json.loads(result.stderr)
                         abort(int(var["code"]), Response=var)
                 else:
-                    return {'Response': json.loads(result.stdout)}, 201
+                    return {'Response': json.loads(result.stdout)}, 201, \
+                    { 'Access-Control-Allow-Origin': '*', \
+                      'Access-Control-Allow-Methods' : 'POST' }
             else:
                 abort(
                     415, message="Arguments DataJsonBigraph and DataJsonIntegrative must be null if DataProverif is not null")
@@ -148,7 +162,9 @@ class InputModel(Resource):
                         var = json.loads(result.stderr)
                         abort(int(var["code"]), Response=var)
                 else:
-                    return {'Response': json.loads(result.stdout)}, 201
+                    return {'Response': json.loads(result.stdout)}, 201, \
+                    { 'Access-Control-Allow-Origin': '*', \
+                      'Access-Control-Allow-Methods' : 'POST' }
             else:
                 abort(
                     415, message="Arguments DataJsonBigraph and DataJsonIntegrative must be not if DataProverif is null null")
@@ -173,7 +189,9 @@ class InputModel(Resource):
                         var = json.loads(result.stderr)
                         abort(int(var["code"]), Response=var)
                 else:
-                    return {'Response': json.loads(result.stdout)}, 201
+                    return {'Response': json.loads(result.stdout)}, 201, \
+                    { 'Access-Control-Allow-Origin': '*', \
+                      'Access-Control-Allow-Methods' : 'PUT' }
             else:
                 abort(
                     415, message="Arguments DataJsonBigraph and DataJsonIntegrative must be null if DataProverif is not null")
@@ -195,7 +213,9 @@ class InputModel(Resource):
                         var = json.loads(result.stderr)
                         abort(int(var["code"]), Response=var)
                 else:
-                    return {'Response': json.loads(result.stdout)}, 201
+                    return {'Response': json.loads(result.stdout)}, 201, \
+                    { 'Access-Control-Allow-Origin': '*', \
+                      'Access-Control-Allow-Methods' : 'PUT' }
             else:
                 abort(
                     415, message="Arguments DataJsonBigraph and DataJsonIntegrative must be not if DataProverif is null null")
@@ -215,7 +235,9 @@ class InputModel(Resource):
                 var = json.loads(result.stderr)
                 abort(int(var["code"]), Response=var)
         else:
-            return {'Response': json.loads(result.stdout)}, 200
+            return {'Response': json.loads(result.stdout)}, 200, \
+            { 'Access-Control-Allow-Origin': '*', \
+              'Access-Control-Allow-Methods' : 'DELETE' }
 
 # OutputText
 # Get an output (text), delete an output
@@ -235,7 +257,9 @@ class OutputText(Resource):
                 var = json.loads(result.stderr)
                 abort(int(var["code"]), Response=var)
         else:
-            return {'Response': json.loads(result.stdout)}, 200
+            return {'Response': json.loads(result.stdout)}, 200, \
+            { 'Access-Control-Allow-Origin': '*', \
+              'Access-Control-Allow-Methods' : 'GET' }
 
     def delete(self, model_id, file_id):
         result = subprocess.run(['java', '-jar', '/proverif/serverProverif-1.1.0.jar', 'DeleteOutputText',
@@ -250,7 +274,9 @@ class OutputText(Resource):
                 var = json.loads(result.stderr)
                 abort(int(var["code"]), Response=var)
         else:
-            return {'Response': json.loads(result.stdout)}, 200
+            return {'Response': json.loads(result.stdout)}, 200, \
+            { 'Access-Control-Allow-Origin': '*', \
+              'Access-Control-Allow-Methods' : 'DELETE' }
 
 # OutputHtml
 # Get an output (html), delete an output
@@ -270,7 +296,9 @@ class OutputHtml(Resource):
                 var = json.loads(result.stderr)
                 abort(int(var["code"]), Response=var)
         else:
-            return {'Response': json.loads(result.stdout)}, 200
+            return {'Response': json.loads(result.stdout)}, 200, \
+            { 'Access-Control-Allow-Origin': '*', \
+              'Access-Control-Allow-Methods' : 'GET' }
 
     def delete(self, model_id, file_id):
         result = subprocess.run(['java', '-jar', '/proverif/serverProverif-1.1.0.jar', 'DeleteOutputHtml',
@@ -285,7 +313,9 @@ class OutputHtml(Resource):
                 var = json.loads(result.stderr)
                 abort(int(var["code"]), Response=var)
         else:
-            return {'Response': json.loads(result.stdout)}, 200
+            return {'Response': json.loads(result.stdout)}, 200, \
+            { 'Access-Control-Allow-Origin': '*', \
+              'Access-Control-Allow-Methods' : 'DELETE' }
 
 # Verify
 # Verify with Proverif a model
@@ -314,7 +344,9 @@ class Verify(Resource):
                             var = json.loads(result.stderr)
                             abort(int(var["code"]), Response=var)
                     else:
-                        return {'Response': json.loads(result.stdout)}, 200
+                        return {'Response': json.loads(result.stdout)}, 200, \
+                        { 'Access-Control-Allow-Origin': '*', \
+                          'Access-Control-Allow-Methods' : 'POST' }
                 else:
                     abort(
                         415, Response="If VerificationType is set on both, DataJsonBigraph and DataJsonIntegrative must be specified")
@@ -336,7 +368,9 @@ class Verify(Resource):
                             var = json.loads(result.stderr)
                             abort(int(var["code"]), Response=var)
                     else:
-                        return {'Response': json.loads(result.stdout)}, 200
+                        return {'Response': json.loads(result.stdout)}, 200, \
+                        { 'Access-Control-Allow-Origin': '*', \
+                          'Access-Control-Allow-Methods' : 'POST' }
                 elif args['DataJsonBigraph'] is None and args['DataJsonIntegrative'] is None:
                     result = subprocess.run(['java', '-jar', '/proverif/serverProverif-1.1.0.jar', 'PostVerText',
                                              '{}'.format(model_id), '{}'.format(file_id)], capture_output=True, text=True)
@@ -350,7 +384,9 @@ class Verify(Resource):
                             var = json.loads(result.stderr)
                             abort(int(var["code"]), Response=var)
                     else:
-                        return {'Response': json.loads(result.stdout)}, 200
+                        return {'Response': json.loads(result.stdout)}, 200, \
+                        { 'Access-Control-Allow-Origin': '*', \
+                          'Access-Control-Allow-Methods' : 'POST' }
                 else:
                     abort(
                         415, Response="DataJsonBigraph and DataJsonIntegrative must be both null or both not null")
@@ -372,7 +408,9 @@ class Verify(Resource):
                             var = json.loads(result.stderr)
                             abort(int(var["code"]), Response=var)
                     else:
-                        return {'Response': json.loads(result.stdout)}, 200
+                        return {'Response': json.loads(result.stdout)}, 200, \
+                        { 'Access-Control-Allow-Origin': '*', \
+                          'Access-Control-Allow-Methods' : 'POST' }
                 elif args['DataJsonBigraph'] is None and args['DataJsonIntegrative'] is None:
                     result = subprocess.run(['java', '-jar', '/proverif/serverProverif-1.1.0.jar', 'PostVerHtml',
                                              '{}'.format(model_id), '{}'.format(file_id)], capture_output=True, text=True)
@@ -386,7 +424,9 @@ class Verify(Resource):
                             var = json.loads(result.stderr)
                             abort(int(var["code"]), Response=var)
                     else:
-                        return {'Response': json.loads(result.stdout)}, 200
+                        return {'Response': json.loads(result.stdout)}, 200, \
+                        { 'Access-Control-Allow-Origin': '*', \
+                          'Access-Control-Allow-Methods' : 'POST' }
                 else:
                     abort(
                         415, Response="DataJsonBigraph and DataJsonIntegrative must be both null or both not null")
@@ -418,7 +458,9 @@ class Verify(Resource):
                             var = json.loads(result.stderr)
                             abort(int(var["code"]), Response=var)
                     else:
-                        return {'Response': json.loads(result.stdout)}, 200
+                        return {'Response': json.loads(result.stdout)}, 200, \
+                        { 'Access-Control-Allow-Origin': '*', \
+                          'Access-Control-Allow-Methods' : 'PUT' }
                 else:
                     abort(
                         415, Response="If VerificationType is set on both, DataJsonBigraph and DataJsonIntegrative must be specified")
@@ -440,7 +482,9 @@ class Verify(Resource):
                             var = json.loads(result.stderr)
                             abort(int(var["code"]), Response=var)
                     else:
-                        return {'Response': json.loads(result.stdout)}, 200
+                        return {'Response': json.loads(result.stdout)}, 200, \
+                        { 'Access-Control-Allow-Origin': '*', \
+                          'Access-Control-Allow-Methods' : 'PUT' }
                 elif args['DataJsonBigraph'] is None and args['DataJsonIntegrative'] is None:
                     result = subprocess.run(['java', '-jar', '/proverif/serverProverif-1.1.0.jar', 'PutVerText',
                                              '{}'.format(model_id), '{}'.format(file_id)], capture_output=True, text=True)
@@ -454,7 +498,9 @@ class Verify(Resource):
                             var = json.loads(result.stderr)
                             abort(int(var["code"]), Response=var)
                     else:
-                        return {'Response': json.loads(result.stdout)}, 200
+                        return {'Response': json.loads(result.stdout)}, 200, \
+                        { 'Access-Control-Allow-Origin': '*', \
+                          'Access-Control-Allow-Methods' : 'PUT' }
                 else:
                     abort(
                         415, Response="DataJsonBigraph and DataJsonIntegrative must be both null or both not null")
@@ -476,7 +522,9 @@ class Verify(Resource):
                             var = json.loads(result.stderr)
                             abort(int(var["code"]), Response=var)
                     else:
-                        return {'Response': json.loads(result.stdout)}, 200
+                        return {'Response': json.loads(result.stdout)}, 200, \
+                        { 'Access-Control-Allow-Origin': '*', \
+                          'Access-Control-Allow-Methods' : 'PUT' }
                 elif args['DataJsonBigraph'] is None and args['DataJsonIntegrative'] is None:
                     result = subprocess.run(['java', '-jar', '/proverif/serverProverif-1.1.0.jar', 'PutVerHtml',
                                              '{}'.format(model_id), '{}'.format(file_id)], capture_output=True, text=True)
@@ -490,7 +538,9 @@ class Verify(Resource):
                             var = json.loads(result.stderr)
                             abort(int(var["code"]), Response=var)
                     else:
-                        return {'Response': json.loads(result.stdout)}, 200
+                        return {'Response': json.loads(result.stdout)}, 200, \
+                        { 'Access-Control-Allow-Origin': '*', \
+                          'Access-Control-Allow-Methods' : 'PUT' }
                 else:
                     abort(
                         415, Response="DataJsonBigraph and DataJsonIntegrative must be both null or both not null")

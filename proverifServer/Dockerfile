@@ -9,6 +9,7 @@ RUN apk update \
 # Install Flask-Restful
 RUN python3 -m pip install flask==1.1.4 \
     && python3 -m pip install flask-restful==0.3.9 \
+    && python3 -m pip install flask-cors==3.0.10 \
     && python3 -m pip install markupsafe==2.0.1
 
 # Creation of some useful directory
